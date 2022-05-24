@@ -1,16 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 export type PizzaBlockType = {
     title: string
+    price: number
+    imageUrl: string
 }
 
-const PizzaBlock: React.FC<PizzaBlockType> = (props) => {
+const PizzaBlock: React.FC<PizzaBlockType> = ({title, imageUrl, price}) => {
+    const [pizzaCount, setPizzaCount] = useState<number>(0)
+    const onClickPizzaCount = () => setPizzaCount(pizzaCount + 1)
     return (
         <div className="pizza-block-wrapper">
-            <div className="pizza-block"><a href="/pizza/3"><img className="pizza-block__image"
-                                                                 src="https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/af553bf5-3887-4501-b88e-8f0f55229429.jpg"
-                                                                 alt="Pizza"/><h4
-                className="pizza-block__title">{props.title}</h4></a>
+            <div className="pizza-block"><a href="/pizza/3">
+                <img
+                    className="pizza-block__image"
+                    src={imageUrl}
+                    alt="Pizza"/><h4
+                className="pizza-block__title">{title}</h4></a>
                 <div className="pizza-block__selector">
                     <ul>
                         <li className="">традиционное</li>
@@ -22,15 +28,20 @@ const PizzaBlock: React.FC<PizzaBlockType> = (props) => {
                     </ul>
                 </div>
                 <div className="pizza-block__bottom">
-                    <div className="pizza-block__price">от 275 ₽</div>
-                    <button className="button button--outline button--add">
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
+                    <div className="pizza-block__price">от {price} руб</div>
+                    <button
+                        className="button button--outline button--add"
+                        onClick={onClickPizzaCount}>
+                        <svg
+                            width="12" height="12" viewBox="0 0 12 12" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M10.8 4.8H7.2V1.2C7.2 0.5373 6.6627 0 6 0C5.3373 0 4.8 0.5373 4.8 1.2V4.8H1.2C0.5373 4.8 0 5.3373 0 6C0 6.6627 0.5373 7.2 1.2 7.2H4.8V10.8C4.8 11.4627 5.3373 12 6 12C6.6627 12 7.2 11.4627 7.2 10.8V7.2H10.8C11.4627 7.2 12 6.6627 12 6C12 5.3373 11.4627 4.8 10.8 4.8Z"
                                 fill="white"></path>
                         </svg>
-                        <span>Добавить</span></button>
+                        <span>Добавить</span>
+                        <i>{pizzaCount}</i>
+                    </button>
                 </div>
             </div>
         </div>
