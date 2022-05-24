@@ -4,11 +4,15 @@ export type PizzaBlockType = {
     title: string
     price: number
     imageUrl: string
+    sizes: Array<number>
+    types: Array<number>
 }
 
-const PizzaBlock: React.FC<PizzaBlockType> = ({title, imageUrl, price}) => {
-    const [pizzaCount, setPizzaCount] = useState<number>(0)
-    const onClickPizzaCount = () => setPizzaCount(pizzaCount + 1)
+const PizzaBlock: React.FC<PizzaBlockType> = ({title, imageUrl, price, sizes, types}) => {
+    const [activeType, setActiveType] = useState<number>(0)
+    const [activeSize, setActiveSize] = useState<number>(0)
+    const typeNames = ['тонкое', 'традиционное']
+
     return (
         <div className="pizza-block-wrapper">
             <div className="pizza-block"><a href="/pizza/3">
@@ -19,19 +23,24 @@ const PizzaBlock: React.FC<PizzaBlockType> = ({title, imageUrl, price}) => {
                 className="pizza-block__title">{title}</h4></a>
                 <div className="pizza-block__selector">
                     <ul>
-                        <li className="">традиционное</li>
+                        {types.map((type, index) => {
+                            return (
+                                <li key={index} onClick={()=>setActiveType(type)} className={activeType === type ? 'active' : ''}>{typeNames[type]}</li>
+                            )
+                        })}
                     </ul>
                     <ul>
-                        <li className="active">26 см.</li>
-                        <li className="">30 см.</li>
-                        <li className="">40 см.</li>
+                        {sizes.map((size, index) => {
+                            return (
+                                <li className={activeSize === index ? 'active' : ''} key={index} onClick={()=>setActiveSize(index)} >{size} см.</li>
+                            )
+                        })}
                     </ul>
                 </div>
                 <div className="pizza-block__bottom">
                     <div className="pizza-block__price">от {price} руб</div>
                     <button
-                        className="button button--outline button--add"
-                        onClick={onClickPizzaCount}>
+                        className="button button--outline button--add">
                         <svg
                             width="12" height="12" viewBox="0 0 12 12" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +49,7 @@ const PizzaBlock: React.FC<PizzaBlockType> = ({title, imageUrl, price}) => {
                                 fill="white"></path>
                         </svg>
                         <span>Добавить</span>
-                        <i>{pizzaCount}</i>
+                        <i>0</i>
                     </button>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import './scss/app.scss';
 import Header from "./components/Header";
 import Categories from "./components/Categories";
 import Sort from "./components/Sort";
+import pizzas from '../src/assets/pizzas.json'
 import PizzaBlock from "./components/Pizza-block";
 
 function App() {
@@ -18,21 +19,11 @@ function App() {
                         </div>
                         <h2 className="content__title">Все пиццы</h2>
                         <div className="content__items">
-                            <PizzaBlock
-                                title={'Кисло-сладкий цыпленок'}
-                                imageUrl={"https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/af553bf5-3887-4501-b88e-8f0f55229429.jpg"}
-                                price={27.90}
-                            />
-                            <PizzaBlock
-                                title={'Крэйзи пепперони'}
-                                imageUrl={'https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/1e1a6e80-b3ba-4a44-b6b9-beae5b1fbf27.jpg'}
-                                price={27.90}
-                            />
-                            <PizzaBlock
-                                title={'Маргарита'}
-                                imageUrl={'https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/d48003cd-902c-420d-9f28-92d9dc5f73b4.jpg'}
-                                price={27.90}
-                            />
+                            {pizzas.map((obj, index) => {
+                                return (
+                                    <PizzaBlock key={index}{...obj}/>
+                                )
+                            })}
                         </div>
                         <ul className="Pagination_root__uwB0O">
                             <li
