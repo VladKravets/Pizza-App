@@ -1,12 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './scss/app.scss';
 import Header from "./components/Header";
 import Categories from "./components/Categories";
 import Sort from "./components/Sort";
-import pizzas from '../src/assets/pizzas.json'
-import PizzaBlock from "./components/Pizza-block";
+import PizzaBlock from "./components/Pizza-block/Pizza-block";
+import MyLoader from "./components/Pizza-block/MyLoader";
+
 
 function App() {
+    let [items, setItems] = useState([])
+    const [isLoading, setloading] = useState<boolean>(true)
+
+    useEffect(() => {
+        fetch('https://628dfd89a339dfef87a55c6c.mockapi.io/items')
+            .then(res => res.json())
+            .then(arr => {
+                setItems(arr)
+                setloading(false)
+            })
+    }, []);
+
+
+    // @ts-ignore
+    // @ts-ignore
     return (
         <div id="root">
             <div className="wrapper">
@@ -19,11 +35,18 @@ function App() {
                         </div>
                         <h2 className="content__title">Все пиццы</h2>
                         <div className="content__items">
-                            {pizzas.map(obj => {
-                                return (
-                                    <PizzaBlock key={obj.id}{...obj}/>
-                                )
-                            })}
+                            {
+                                isLoading
+                                    ? [...new Array(6)].map((_, index) => <MyLoader key={index}/>)
+                                    : items.map(obj => {
+                                            return (
+                                                //@ts-ignore
+                                                <PizzaBlock key={obj.id}{...obj}/>
+                                            )
+                                        }
+                                    )
+                            }
+
                         </div>
                         <ul className="Pagination_root__uwB0O">
                             <li
