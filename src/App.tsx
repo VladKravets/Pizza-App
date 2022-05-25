@@ -1,77 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './scss/app.scss';
 import Header from "./components/Header";
-import Categories from "./components/Categories";
-import Sort from "./components/Sort";
-import PizzaBlock from "./components/Pizza-block/Pizza-block";
-import MyLoader from "./components/Pizza-block/MyLoader";
+import Home from "./pages/Home";
+import {Route, Routes} from "react-router-dom";
+import NoteFound from "./pages/NoteFoundBlock/NoteFound";
+import Cart from "./pages/Cart";
 
 
 function App() {
-    let [items, setItems] = useState([])
-    const [isLoading, setloading] = useState<boolean>(true)
 
-    useEffect(() => {
-        fetch('https://628dfd89a339dfef87a55c6c.mockapi.io/items')
-            .then(res => res.json())
-            .then(arr => {
-                setItems(arr)
-                setloading(false)
-            })
-    }, []);
-
-
-    // @ts-ignore
-    // @ts-ignore
     return (
         <div id="root">
             <div className="wrapper">
                 <Header/>
                 <div className="content">
                     <div className="container">
-                        <div className="content__top">
-                            <Categories/>
-                            <Sort/>
-                        </div>
-                        <h2 className="content__title">Все пиццы</h2>
-                        <div className="content__items">
-                            {
-                                isLoading
-                                    ? [...new Array(6)].map((_, index) => <MyLoader key={index}/>)
-                                    : items.map(obj => {
-                                            return (
-                                                //@ts-ignore
-                                                <PizzaBlock key={obj.id}{...obj}/>
-                                            )
-                                        }
-                                    )
-                            }
-
-                        </div>
-                        <ul className="Pagination_root__uwB0O">
-                            <li
-                                className="previous disabled">
-                                <a
-                                    className=" " role="button"
-                                    aria-disabled="true" aria-label="Previous page"
-                                    rel="prev">&lt;
-                                </a>
-                            </li>
-                            <li className="selected"><a rel="canonical" role="button"
-                                                        aria-label="Page 1 is your current page"
-                                                        aria-current="page">1</a></li>
-                            <li>
-                                <a rel="next" role="button" aria-label="Page 2"/>2
-                            </li>
-                            <li>
-                                <a role="button" aria-label="Page 3"/>3
-                            </li>
-                            <li className="next">
-                                <a
-                                    className="" role="button" aria-disabled="false"
-                                    aria-label="Next page" rel="next">&gt;</a>
-                            </li>
-                        </ul>
+                        <Routes>
+                            <Route path="/" element={<Home/>}/>
+                            <Route path="/cart" element={<Cart/>}/>
+                            <Route path={'/*'} element={<NoteFound/>}/>
+                        </Routes>
                     </div>
                 </div>
             </div>

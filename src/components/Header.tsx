@@ -1,20 +1,22 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const Header = () => {
     return (
         <div className="header">
-            <div className="container"><a href="/">
-                <div className="header__logo">
-                    <img
-                        width="38"
-                        src="https://react-pizza-v2.vercel.app/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg"
-                        alt="Pizza logo"/>
-                    <div>
-                        <h1>React Pizza V2</h1>
-                        <p>самая вкусная пицца во вселенной</p>
+            <div className="container">
+                <Link to="/">
+                    <div className="header__logo">
+                        <img
+                            width="38"
+                            src="https://react-pizza-v2.vercel.app/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg"
+                            alt="Pizza logo"/>
+                        <div>
+                            <h1>React Pizza V2</h1>
+                            <p>самая вкусная пицца во вселенной</p>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </Link>
                 <div className="Search_root__eiX89">
                     <svg
                         className="Search_icon__XMmYc"
@@ -42,7 +44,7 @@ const Header = () => {
                             x2="20.366" y1="27" y2="20.366"></line>
                     </svg>
                     <input className="Search_input__klILD" placeholder="Поиск пиццы..." value=""/></div>
-                <div className="header__cart"><a className="button button--cart" href="/cart"><span>395 ₽</span>
+                <div className="header__cart"><Link className="button button--cart" to="/cart"><span>395 ₽</span>
                     <div className="button__delimiter"></div>
                     <svg
                         width="18" height="18" viewBox="0 0 18 18" fill="none"
@@ -60,7 +62,7 @@ const Header = () => {
                             stroke="white" strokeWidth="1.8" strokeLinecap="round"
                             strokeLinejoin="round"></path>
                     </svg>
-                    <span>1</span></a></div>
+                    <span>1</span></Link></div>
             </div>
         </div>
 
