@@ -23,9 +23,9 @@ const PizzaBlock: React.FC<PizzaBlockType> = ({title, imageUrl, price, sizes, ty
                 className="pizza-block__title">{title}</h4></a>
                 <div className="pizza-block__selector">
                     <ul>
-                        {types.map((type, index) => {
+                        {types.map(type=> {
                             return (
-                                <li key={index} onClick={()=>setActiveType(type)} className={activeType === type ? 'active' : ''}>{typeNames[type]}</li>
+                                <li key={type} onClick={()=>setActiveType(type)} className={activeType === type ? 'active' : ''}>{typeNames[type]}</li>
                             )
                         })}
                     </ul>
