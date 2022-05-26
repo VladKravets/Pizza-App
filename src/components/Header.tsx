@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import SearchPizza from "../pages/Search-pizza/Search-pizza";
 
 const Header = () => {
     return (
@@ -17,6 +18,8 @@ const Header = () => {
                         </div>
                     </div>
                 </Link>
+                <SearchPizza/>
+
                 <div className="Search_root__eiX89">
                     <svg
                         className="Search_icon__XMmYc"
@@ -43,7 +46,7 @@ const Header = () => {
                             strokeWidth="2" x1="27"
                             x2="20.366" y1="27" y2="20.366"></line>
                     </svg>
-                    <input className="Search_input__klILD" placeholder="Поиск пиццы..." value=""/></div>
+                </div>
                 <div className="header__cart"><Link className="button button--cart" to="/cart"><span>395 ₽</span>
                     <div className="button__delimiter"></div>
                     <svg
