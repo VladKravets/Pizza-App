@@ -4,6 +4,7 @@ type SortType = {
     name: string;
     sortProperty: string;
 };
+
 export enum SortPropertyEnum {
     RATING_DESC = 'rating',
     RATING_ASC = '-rating',
@@ -12,6 +13,7 @@ export enum SortPropertyEnum {
     PRICE_DESC = 'price',
     PRICE_ASC = '-price',
 }
+
 export type Sort = {
     name: string;
     sortProperty: SortPropertyEnum;
@@ -19,14 +21,14 @@ export type Sort = {
 
 type SortPopupProps = {
     value: SortType;
-    onChangeSort:any
+    onChangeSort: any
 };
 
 
 const Sort: React.FC<SortPopupProps> = (props) => {
     const [isVisible, setIsVisible] = useState<boolean>(false)
 
-    const list= [
+    const list = [
         {name: 'популярности(DESC)', sortProperty: 'rating'},
         {name: 'популярности(ASC)', sortProperty: '-rating'},
         {name: 'цене(DESC)', sortProperty: 'price'},
@@ -36,7 +38,7 @@ const Sort: React.FC<SortPopupProps> = (props) => {
     ]
 
     const onClickIsVisible = () => setIsVisible(!isVisible)
-    const onClickListItem = (obj:SortType) => {
+    const onClickListItem = (obj: SortType) => {
         props.onChangeSort(obj)
         setIsVisible(false)
     }
