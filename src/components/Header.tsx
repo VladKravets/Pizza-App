@@ -7,7 +7,7 @@ export type HeaderPropsType = {
     setSearchValue: Function
 }
 
-const Header: React.FC<HeaderPropsType> = (props) => {
+const Header = () => {
     return (
         <div className="header">
             <div className="container">
@@ -23,7 +23,7 @@ const Header: React.FC<HeaderPropsType> = (props) => {
                         </div>
                     </div>
                 </Link>
-                <SearchPizza searchValue={props.searchValue} setSearchValue={props.setSearchValue}/>
+                <SearchPizza/>
 
                 <div className="Search_root__eiX89">
                     <svg

@@ -1,15 +1,15 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useContext} from 'react';
 import style from "./SearchPizza.module.scss"
-
-export type SearchPizzaPropsType = {
-    searchValue: string
-    setSearchValue: Function
-}
+import {SearchContext} from "../../App";
 
 
-const SearchPizza: React.FC<SearchPizzaPropsType> = (props) => {
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => props.setSearchValue(e.currentTarget.value)
-    const onClickClearInput = () => props.setSearchValue('')
+const SearchPizza = () => {
+
+    const {searchValue, setSearchValue} = useContext<any>(SearchContext)
+
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.currentTarget.value)
+    const onClickClearInput = () => setSearchValue('')
 
     return (
         <div className={style.root}>
@@ -26,9 +26,9 @@ const SearchPizza: React.FC<SearchPizzaPropsType> = (props) => {
                 className={style.input}
                 type="text"
                 placeholder={'Поиск пиццы 🍕...'}
-                value={props.searchValue}
+                value={searchValue}
                 onChange={onChangeHandler}
-            />{props.searchValue &&
+            />{searchValue &&
             <svg
                 onClick={onClickClearInput}
                 className={style.clearIcon} height="48" viewBox="0 0 48 48" width="48"

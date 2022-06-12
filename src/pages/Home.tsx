@@ -1,19 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import MyLoader from "../components/Pizza-block/MyLoader";
 import PizzaBlock from "../components/Pizza-block/Pizza-block";
 import Pagination from "../components/Pagination/Pagination";
+import {SearchContext} from "../App";
 
-export type SortArrayType = {
-    name: string
-    sortProperty: string
-}
-export type SortedCategoriesType = {}
-export type HomePropsType = {
-    searchValue: string
-}
-const Home: React.FC<HomePropsType> = (props) => {
+
+const Home= () => {
+
+    const {searchValue}=useContext<any>(SearchContext)
+
+
     let [items, setItems] = useState([])
     const [isLoading, setLoading] = useState<boolean>(true)
     const [categoryId, setCategoryID] = useState<number>(0)
@@ -27,10 +25,8 @@ const Home: React.FC<HomePropsType> = (props) => {
         setLoading(true)
         const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
         const sortBy = sort.sortProperty.replace('-', '')
-        const category = categoryId > 0
-            ? `category=${categoryId}`
-            : '';
-        const search = props.searchValue ? `&search=${props.searchValue}` : ''
+        const category = categoryId > 0 ? `&category=${categoryId}` : '';
+        const search = searchValue ? `&search=${searchValue}` : ''
 
         fetch(`https://628dfd89a339dfef87a55c6c.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
             .then(res => res.json())
@@ -39,7 +35,7 @@ const Home: React.FC<HomePropsType> = (props) => {
                 setLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sort, props.searchValue,currentPage]);
+    }, [categoryId, sort, searchValue,currentPage]);
 
     const pizzas = items
         //Для статического массива-круто
