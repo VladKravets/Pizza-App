@@ -3,37 +3,57 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import MyLoader from "../components/Pizza-block/MyLoader";
 import PizzaBlock from "../components/Pizza-block/Pizza-block";
+import Pagination from "../components/Pagination/Pagination";
 
 export type SortArrayType = {
     name: string
     sortProperty: string
 }
 export type SortedCategoriesType = {}
-
-const Home = () => {
+export type HomePropsType = {
+    searchValue: string
+}
+const Home: React.FC<HomePropsType> = (props) => {
     let [items, setItems] = useState([])
-    const [isLoading, setloading] = useState<boolean>(true)
+    const [isLoading, setLoading] = useState<boolean>(true)
     const [categoryId, setCategoryID] = useState<number>(0)
     const [sort, setSort] = useState(
         {name: 'популярности', sortProperty: 'rating'},
     )
 
+    const [currentPage,setCurrentPage]=useState<number>(1)
+
     useEffect(() => {
-        setloading(true)
+        setLoading(true)
         const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
         const sortBy = sort.sortProperty.replace('-', '')
         const category = categoryId > 0
             ? `category=${categoryId}`
             : '';
+        const search = props.searchValue ? `&search=${props.searchValue}` : ''
 
-        fetch(`https://628dfd89a339dfef87a55c6c.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`)
+        fetch(`https://628dfd89a339dfef87a55c6c.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
             .then(res => res.json())
             .then(arr => {
                 setItems(arr)
-                setloading(false)
+                setLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sort]);
+    }, [categoryId, sort, props.searchValue,currentPage]);
+
+    const pizzas = items
+        //Для статического массива-круто
+        // .filter(obj => {
+        //     // @ts-ignore
+        //     return obj.title.toLowerCase().includes(props.searchValue.toLowerCase());
+        // })
+        .map(obj => {
+            return (
+                //@ts-ignore
+                <PizzaBlock key={obj.id}{...obj}/>
+            )
+        })
+    const skeletons = [...new Array(6)].map((_, index) => <MyLoader key={index}/>)
 
 
     return (
@@ -46,16 +66,11 @@ const Home = () => {
             <div className="content__items">
                 {
                     isLoading
-                        ? [...new Array(6)].map((_, index) => <MyLoader key={index}/>)
-                        : items.map(obj => {
-                                return (
-                                    //@ts-ignore
-                                    <PizzaBlock key={obj.id}{...obj}/>
-                                )
-                            }
-                        )
+                        ? skeletons
+                        : pizzas
                 }
             </div>
+            <Pagination onChange={(number)=>setCurrentPage(number)}/>
         </div>
     );
 };

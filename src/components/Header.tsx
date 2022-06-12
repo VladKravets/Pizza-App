@@ -2,7 +2,12 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import SearchPizza from "../pages/Search-pizza/Search-pizza";
 
-const Header = () => {
+export type HeaderPropsType = {
+    searchValue: string
+    setSearchValue: Function
+}
+
+const Header: React.FC<HeaderPropsType> = (props) => {
     return (
         <div className="header">
             <div className="container">
@@ -18,7 +23,7 @@ const Header = () => {
                         </div>
                     </div>
                 </Link>
-                <SearchPizza/>
+                <SearchPizza searchValue={props.searchValue} setSearchValue={props.setSearchValue}/>
 
                 <div className="Search_root__eiX89">
                     <svg

@@ -1,7 +1,16 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import style from "./SearchPizza.module.scss"
 
-const SearchPizza = () => {
+export type SearchPizzaPropsType = {
+    searchValue: string
+    setSearchValue: Function
+}
+
+
+const SearchPizza: React.FC<SearchPizzaPropsType> = (props) => {
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => props.setSearchValue(e.currentTarget.value)
+    const onClickClearInput = () => props.setSearchValue('')
+
     return (
         <div className={style.root}>
             <svg
@@ -16,7 +25,19 @@ const SearchPizza = () => {
             <input
                 className={style.input}
                 type="text"
-                placeholder={'Поиск пиццы...'}/>
+                placeholder={'Поиск пиццы 🍕...'}
+                value={props.searchValue}
+                onChange={onChangeHandler}
+            />{props.searchValue &&
+            <svg
+                onClick={onClickClearInput}
+                className={style.clearIcon} height="48" viewBox="0 0 48 48" width="48"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M38 12.83l-2.83-2.83-11.17 11.17-11.17-11.17-2.83 2.83 11.17 11.17-11.17 11.17 2.83 2.83 11.17-11.17 11.17 11.17 2.83-2.83-11.17-11.17z"/>
+                <path d="M0 0h48v48h-48z" fill="none"/>
+            </svg>
+        }
         </div>
     );
 };
