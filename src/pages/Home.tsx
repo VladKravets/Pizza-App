@@ -5,21 +5,25 @@ import MyLoader from "../components/Pizza-block/MyLoader";
 import PizzaBlock from "../components/Pizza-block/Pizza-block";
 import Pagination from "../components/Pagination/Pagination";
 import {SearchContext} from "../App";
+import {useDispatch, useSelector} from "react-redux";
+import {selectFilter} from "../BLL/slices/filter/selectors";
+import {setCategoryId} from "../BLL/slices/filter/filter-slice";
 
 
-const Home= () => {
+const Home = () => {
+    const dispatch = useDispatch()
+    const {categoryId} = useSelector(selectFilter);
 
-    const {searchValue}=useContext<any>(SearchContext)
+    const {searchValue} = useContext<any>(SearchContext)
 
 
     let [items, setItems] = useState([])
     const [isLoading, setLoading] = useState<boolean>(true)
-    const [categoryId, setCategoryID] = useState<number>(0)
     const [sort, setSort] = useState(
         {name: 'популярности', sortProperty: 'rating'},
     )
 
-    const [currentPage,setCurrentPage]=useState<number>(1)
+    const [currentPage, setCurrentPage] = useState<number>(1)
 
     useEffect(() => {
         setLoading(true)
@@ -35,7 +39,7 @@ const Home= () => {
                 setLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sort, searchValue,currentPage]);
+    }, [categoryId, sort, searchValue, currentPage]);
 
     const pizzas = items
         //Для статического массива-круто
@@ -50,12 +54,12 @@ const Home= () => {
             )
         })
     const skeletons = [...new Array(6)].map((_, index) => <MyLoader key={index}/>)
-
+    const onClickCategoryHandler = (id: number) => dispatch(setCategoryId(id))
 
     return (
         <div className="container">
             <div className="content__top">
-                <Categories value={categoryId} onClickCategory={(id: number) => setCategoryID(id)}/>
+                <Categories value={categoryId} onClickCategory={onClickCategoryHandler}/>
                 <Sort value={sort} onChangeSort={(id: any) => setSort(id)}/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
@@ -66,7 +70,7 @@ const Home= () => {
                         : pizzas
                 }
             </div>
-            <Pagination onChange={(number)=>setCurrentPage(number)}/>
+            <Pagination onChange={(number) => setCurrentPage(number)}/>
         </div>
     );
 };
