@@ -6,22 +6,20 @@ import PizzaBlock from "../components/Pizza-block/Pizza-block";
 import Pagination from "../components/Pagination/Pagination";
 import {SearchContext} from "../App";
 import {useDispatch, useSelector} from "react-redux";
-import {selectFilter} from "../BLL/slices/filter/selectors";
+import {selectFilter, selectSort} from "../BLL/slices/filter/selectors";
 import {setCategoryId} from "../BLL/slices/filter/filter-slice";
 
 
 const Home = () => {
     const dispatch = useDispatch()
     const {categoryId} = useSelector(selectFilter);
+    const sort=useSelector(selectSort)
 
     const {searchValue} = useContext<any>(SearchContext)
 
 
     let [items, setItems] = useState([])
     const [isLoading, setLoading] = useState<boolean>(true)
-    const [sort, setSort] = useState(
-        {name: 'популярности', sortProperty: 'rating'},
-    )
 
     const [currentPage, setCurrentPage] = useState<number>(1)
 
@@ -60,7 +58,7 @@ const Home = () => {
         <div className="container">
             <div className="content__top">
                 <Categories value={categoryId} onClickCategory={onClickCategoryHandler}/>
-                <Sort value={sort} onChangeSort={(id: any) => setSort(id)}/>
+                <Sort/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
