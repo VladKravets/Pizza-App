@@ -8,6 +8,7 @@ import {SearchContext} from "../App";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFilter, selectSort} from "../BLL/slices/filter/selectors";
 import {setCategoryId} from "../BLL/slices/filter/filter-slice";
+import axios from "axios";
 
 
 const Home = () => {
@@ -30,10 +31,16 @@ const Home = () => {
         const category = categoryId > 0 ? `&category=${categoryId}` : '';
         const search = searchValue ? `&search=${searchValue}` : ''
 
-        fetch(`https://628dfd89a339dfef87a55c6c.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
-            .then(res => res.json())
-            .then(arr => {
-                setItems(arr)
+        // fetch(`https://628dfd89a339dfef87a55c6c.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
+        //     .then(res => res.json())
+        //     .then(arr => {
+        //         setItems(arr)
+        //         setLoading(false)
+        //     })
+
+        axios.get(`https://628dfd89a339dfef87a55c6c.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
+            .then(res=>{
+                setItems(res.data)
                 setLoading(false)
             })
         window.scrollTo(0, 0)
