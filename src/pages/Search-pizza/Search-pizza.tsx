@@ -1,24 +1,28 @@
-import React, {ChangeEvent, useContext} from 'react';
+import React, {ChangeEvent, useCallback, useContext, useState} from 'react';
 import style from './SearchPizza.module.scss';
 import {SearchContext} from "../../App";
 import debounce from 'lodash.debounce';
 
 const SearchPizza = () => {
-
+    const [value, setValue] = useState('')
     const {searchValue, setSearchValue} = useContext<any>(SearchContext)
     const inputRef = React.useRef<HTMLInputElement>(null);
-    const testDebounce = React.useCallback(
-        debounce(() => {
-            console.log('Hello')
-        }, 1000), []
-    )
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.currentTarget.value)
+
+    const updateSearchValue = useCallback(
+        debounce((str) => {
+            setSearchValue(str)
+        }, 1000), [searchValue])
+
     const onClickClearInput = () => {
         setSearchValue('')
+        setValue('')
 // @ts-ignore
         inputRef.current.focus()
     }
-
+    const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value)
+        updateSearchValue(event.target.value)
+    }
     return (
         <div className={style.root}>
             <svg
@@ -35,10 +39,10 @@ const SearchPizza = () => {
                 className={style.input}
                 type="text"
                 placeholder={'Поиск пиццы 🍕...'}
-                value={searchValue}
-                onChange={onChangeHandler}
+                value={value}
+                onChange={onChangeInput}
             />
-            {searchValue &&
+            {value &&
                 <svg
                     onClick={onClickClearInput}
                     className={style.clearIcon} height="48" viewBox="0 0 48 48" width="48"

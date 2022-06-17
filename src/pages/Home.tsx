@@ -7,13 +7,13 @@ import Pagination from "../components/Pagination/Pagination";
 import {SearchContext} from "../App";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFilter, selectSort} from "../BLL/slices/filter/selectors";
-import {setCategoryId} from "../BLL/slices/filter/filter-slice";
+import {setCategoryId,setCurrentPage} from "../BLL/slices/filter/filter-slice";
 import axios from "axios";
 
 
 const Home = () => {
     const dispatch = useDispatch()
-    const {categoryId} = useSelector(selectFilter);
+    const {categoryId,currentPage} = useSelector(selectFilter);
     const sort=useSelector(selectSort)
 
     const {searchValue} = useContext<any>(SearchContext)
@@ -22,7 +22,6 @@ const Home = () => {
     let [items, setItems] = useState([])
     const [isLoading, setLoading] = useState<boolean>(true)
 
-    const [currentPage, setCurrentPage] = useState<number>(1)
 
     useEffect(() => {
         setLoading(true)
@@ -30,6 +29,7 @@ const Home = () => {
         const sortBy = sort.sortProperty.replace('-', '')
         const category = categoryId > 0 ? `&category=${categoryId}` : '';
         const search = searchValue ? `&search=${searchValue}` : ''
+
 
         // fetch(`https://628dfd89a339dfef87a55c6c.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
         //     .then(res => res.json())
@@ -60,7 +60,9 @@ const Home = () => {
         })
     const skeletons = [...new Array(6)].map((_, index) => <MyLoader key={index}/>)
     const onClickCategoryHandler = (id: number) => dispatch(setCategoryId(id))
-
+    const onChangePage=(number:number) =>{
+        dispatch(setCurrentPage(number))
+    }
     return (
         <div className="container">
             <div className="content__top">
@@ -75,7 +77,7 @@ const Home = () => {
                         : pizzas
                 }
             </div>
-            <Pagination onChange={(number) => setCurrentPage(number)}/>
+            <Pagination onChange={onChangePage} currentPage={currentPage}/>
         </div>
     );
 };
