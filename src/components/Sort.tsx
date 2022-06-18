@@ -26,6 +26,14 @@ type SortPopupProps = {
     value: SortType;
     onChangeSort: any
 };
+export const sortList = [
+    {name: 'популярности(DESC)', sortProperty: 'rating'},
+    {name: 'популярности(ASC)', sortProperty: '-rating'},
+    {name: 'цене(DESC)', sortProperty: 'price'},
+    {name: 'цене(ASC)', sortProperty: '-price'},
+    {name: 'алфавиту(DESK)', sortProperty: 'title'},
+    {name: 'алфавиту(ASC)', sortProperty: '-title'},
+]
 
 
 const Sort = () => {
@@ -34,14 +42,6 @@ const Sort = () => {
 
     const [isVisible, setIsVisible] = useState<boolean>(false)
 
-    const list = [
-        {name: 'популярности(DESC)', sortProperty: 'rating'},
-        {name: 'популярности(ASC)', sortProperty: '-rating'},
-        {name: 'цене(DESC)', sortProperty: 'price'},
-        {name: 'цене(ASC)', sortProperty: '-price'},
-        {name: 'алфавиту(DESK)', sortProperty: 'title'},
-        {name: 'алфавиту(ASC)', sortProperty: '-title'},
-    ]
 
     const onClickIsVisible = () => setIsVisible(!isVisible)
     const onClickListItem = (obj: SortType) => {
@@ -66,7 +66,7 @@ const Sort = () => {
             {isVisible && (
                 <div className="sort__popup">
                     <ul>
-                        {list.map((obj, index) => {
+                        {sortList.map((obj, index) => {
                             return (<li
                                 key={index}
                                 onClick={() => onClickListItem(obj)}
