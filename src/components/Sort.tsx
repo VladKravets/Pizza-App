@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {selectSort} from "../BLL/slices/filter/selectors";
 import {setSort} from "../BLL/slices/filter/filter-slice";
@@ -38,7 +38,9 @@ export const sortList = [
 
 const Sort = () => {
     const dispatch = useDispatch()
-    const sort=useSelector(selectSort)
+    const sort = useSelector(selectSort)
+    const sortRef = useRef()
+
 
     const [isVisible, setIsVisible] = useState<boolean>(false)
 
@@ -49,8 +51,17 @@ const Sort = () => {
         dispatch(setSort(obj))
         setIsVisible(false)
     }
+
+    useEffect(() => {
+        return () => {
+document.body.addEventListener('click',event=>{
+    if (event.path.includes(sortRef.current))
+})
+        };
+    }, []);
+
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div className="sort__label">
                 <svg
                     width="10"
