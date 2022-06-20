@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {selectSort} from "../BLL/slices/filter/selectors";
 import {setSort} from "../BLL/slices/filter/filter-slice";
@@ -53,11 +53,15 @@ const Sort = () => {
     }
 
     useEffect(() => {
+        const handleClickOutside = (event: any) => {
+            if (!event.path.includes(sortRef.current)) {
+                setIsVisible(false)
+            }
+        }
+        document.body.addEventListener('click', handleClickOutside)
         return () => {
-document.body.addEventListener('click',event=>{
-    if (event.path.includes(sortRef.current))
-})
-        };
+            document.body.removeEventListener('click', handleClickOutside)
+        }
     }, []);
 
     return (
